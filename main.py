@@ -35,6 +35,7 @@ def main():
             distance = int(values[1])
         except:
             print('Invalid input')
+        window["-TEXT-"].update("")
         if event != 'Clear':
             services = services_near_postcode(
                 conn, values[0], distance, what_services)
@@ -47,8 +48,6 @@ def main():
                         services_formatter.append("\n")
             services_formatter = "".join(services_formatter)
             window["-TEXT-"].update(services_formatter)
-        else:
-            window["-TEXT-"].update("")
     window.close()
 
 
