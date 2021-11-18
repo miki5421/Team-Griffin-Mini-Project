@@ -44,7 +44,7 @@ def distance_between_postcodes(conn, postcode_1, postcode_2):
     return round(0.621371 * distance, 2)
 
 # Find services near the postcode, within a given radius and return them as a list
-def services_near_postcode(conn, user_postcode, search_radius):
+def services_near_postcode(conn, user_postcode, search_radius, what_services):
     services = []
     count = 0
     cur = conn.cursor()
@@ -59,6 +59,14 @@ def services_near_postcode(conn, user_postcode, search_radius):
                services.append(list(cur.fetchone()))
                services[count].append(distance)
                count += 1
+
+    helper_heap = []
+
+    for i in range(len(services)):
+        if services[i][1] in what_services:
+            helper_heap.append(services[i])
+
+    services = helper_heap
 
     for service in services:
         if service[1] == 1:
@@ -84,4 +92,5 @@ def postcode_in_postcodes(conn, postcode):
     if postcode in all_postcodes:
         return True
     return False
+    
     
